@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Numer0n'</title>
+    <link rel="stylesheet" th:href="@{/style.css}"> 
+</head>
+<body th:class="${gameOver and result != null and result.contains('3EAT-0BITE')} ? 'game-won' : ''">
+    <h1>Numer0n' -ロジカル数字あて-</h1>
+    
+    <div class="status-box">
+        <p>試行回数: <span th:text="${attemptCount}">0</span> / 8</p>
+        <p th:text="${message}">かぶりなしの数字を3つ入力してね</p>
+    </div>
+
+    <div th:if="${errorMessage}" class="status-box error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    
+    <div th:if="${result}" class="status-box result-display"> <p>最終コール: <span th:text="${lastCall}"></span></p>
+        <h2>ジャッジ: <span th:text="${result}" 
+                                th:class="${result.contains('あたり！！')} ? 'success-result animated' : ''"></span></h2> </div>
+
+    <form th:action="@{/call}" method="post">
+        <input type="number" name="n1" min="0" max="9" required class="input-num">
+        <input type="number" name="n2" min="0" max="9" required class="input-num">
+        <input type="number" name="n3" min="0" max="9" required class="input-num">
+        
+        <button type="submit" th:disabled="${gameOver}">
+            コール！
+        </button>
+    </form>
+    
+    <p style="margin-top: 20px;"><a th:href="@{/reset}">ゲームをリセットする</a></p>
+    
+    <hr style="margin-top: 20px;">
+    
+    <h2>📜 履歴</h2>
+    <div th:if="${historyList != null and not #lists.isEmpty(historyList)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>回数</th>
+                    <th>コール</th>
+                    <th>ジャッジ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="history, iterStat : ${historyList}"
+                    th:class="${history.result.contains('3EAT-0BITE')} ? 'history-success' : ''"> <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${history.call}">123</td>
+                    <td th:text="${history.result}">0EAT-0BITE</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${historyList == null or #lists.isEmpty(historyList)}">
+        <p>まだコールはありません。</p>
+    </div>
+    
+</body>
+</html>

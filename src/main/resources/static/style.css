@@ -1,0 +1,199 @@
+@charset "UTF-8";
+/* style.css */
+
+/* --- 1. 全体の基本スタイル --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 600px; /* PCでの幅を制限 */
+    margin: 0 auto; /* 中央寄せ */
+    padding: 20px;
+    background-color: #f4f7f6; /* やや灰色がかった背景 */
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #1a5276; /* 濃い青 */
+    border-bottom: 2px solid #5d9cec;
+    padding-bottom: 10px;
+}
+
+/* --- 2. 入力フォームとボタンの改善 --- */
+.input-num {
+    width: 60px; /* やや大きく */
+    height: 60px;
+    font-size: 24px;
+    margin: 5px;
+    border: 2px solid #ccc;
+    border-radius: 8px; /* 角を丸く */
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.input-num:focus {
+    border-color: #5d9cec;
+    outline: none;
+}
+
+button[type="submit"] {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: #5d9cec;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+    background-color: #3a75b8;
+}
+
+button[type="submit"]:disabled {
+    background-color: #b0c4de;
+    cursor: not-allowed;
+}
+
+/* --- 3. メッセージと結果のボックス化 --- */
+.status-box {
+    background-color: #eaf4ff; /* 薄い青 */
+    border: 1px solid #5d9cec;
+    border-left: 5px solid #5d9cec;
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.error-message {
+    background-color: #ffebeb; /* 薄い赤 */
+    border: 1px solid #e74c3c;
+    border-left: 5px solid #e74c3c;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* 成功メッセージの強調 */
+.success-result {
+    color: #27ae60 !important; /* 緑 */
+    font-weight: bold;
+}
+
+/* --- 4. 履歴テーブルのデザイン --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border: none;
+}
+
+th {
+    background-color: #1a5276;
+    color: white;
+    font-weight: normal;
+}
+
+tr:nth-child(even) {
+    background-color: #eef4f8; /* ストライプ模様 */
+}
+
+/* 3EAT (正解) の行を強調 */
+.history-success {
+    background-color: #d4edda; /* 薄い緑の背景 */
+    color: #155724; /* 濃い緑の文字 */
+    font-weight: bold;
+}
+
+.history-success td {
+    border-top: 1px solid #c3e6cb;
+    border-bottom: 1px solid #c3e6cb;
+}
+
+
+/* --- 5. アニメーションの追加 --- */
+
+/* キーフレーム定義: フェードインと少しの拡大 */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ジャッジ結果に適用 */
+.status-box.result-display {
+    animation: fadeInScale 0.5s ease-out forwards; /* 0.5秒かけてふわっと現れる */
+}
+
+/* キーフレーム定義: テキストが弾む (正解時) */
+@keyframes bounceIn {
+    0%, 20%, 40%, 60%, 80%, 100% {
+        transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+    0% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+    20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    40% {
+        transform: scale3d(0.9, 0.9, 0.9);
+    }
+    60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        transform: scale3d(0.97, 0.97, 0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+/* 正解時のメッセージに適用 */
+.success-result.animated {
+    display: inline-block; /* アニメーションが効くように */
+    animation: bounceIn 1s; /* 弾むアニメーション */
+    color: #27ae60; /* 強調色 */
+}
+
+
+/* キーフレーム定義: 背景がキラキラする (正解時) */
+@keyframes celebratoryBackground {
+    0% { background-color: #f4f7f6; }
+    25% { background-color: #e6ffe6; } /* 薄い緑 */
+    50% { background-color: #f0f8ff; } /* 薄い青 */
+    75% { background-color: #fff9e6; } /* 薄い黄 */
+    100% { background-color: #f4f7f6; } /* 元に戻る */
+}
+
+/* 正解時にbodyに適用するクラス */
+body.game-won {
+    animation: celebratoryBackground 3s ease-in-out forwards; /* 3秒かけて背景色が変わる */
+}
+
+/* 正解時の履歴行の強調アニメーション (オプション) */
+@keyframes highlightRow {
+    0% { background-color: #d4edda; }
+    50% { background-color: #c3e6cb; }
+    100% { background-color: #d4edda; }
+}
+.history-success {
+    animation: highlightRow 1.5s infinite alternate; /* 継続的にハイライト */
+}
